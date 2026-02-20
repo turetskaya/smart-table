@@ -2,10 +2,22 @@ import {rules, createComparison} from "../lib/compare.js";
 
 
 export function initSearching(searchField) {
-    // @todo: #5.1 — настроить компаратор
 
-    return (data, state, action) => {
-        // @todo: #5.2 — применить компаратор
-        return data;
-    }
+    return (data, state) => {
+
+        const value = state[searchField];
+
+        if (!value) {
+            return data;
+        }
+
+        const search = value.toLowerCase();
+
+        return data.filter(row =>
+            ['date', 'customer', 'seller']
+                .some(field =>
+                    String(row[field]).toLowerCase().includes(search)
+                )
+        );
+    };
 }
